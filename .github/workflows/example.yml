@@ -1,0 +1,34 @@
+name: "Run TypeScript in github-script"
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  ts-script-job:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./.github/scripts/example
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+          cache-dependency-path: ./.github/scripts/example/package-lock.json
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build script
+        run: npm run build
+
+      - name: Run bundled TypeScript script
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const script = require('./.github/scripts/example/dist/bundle.js');
+            return await script({github, context, core});
