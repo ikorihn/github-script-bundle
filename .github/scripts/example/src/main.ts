@@ -1,4 +1,5 @@
 import { format, formatDistance, formatRelative, subDays } from "date-fns";
+import JSON5 from "json5";
 
 import type { getOctokit } from "@actions/github";
 import type { context as ContextType } from "@actions/github";
@@ -25,6 +26,15 @@ export default async ({
   });
   //=> "3 days ago"
   core.info(`Date distance: ${dateDistance}`);
+
+  // json5の例
+  const jsonString = `{
+      "key": "value",
+      "number": 123,
+      "boolean": true,
+      "nullValue": null,
+  }`;
+  console.log(JSON5.parse(jsonString));
 
   // contextオブジェクトの利用例
   const { owner, repo } = context.repo;

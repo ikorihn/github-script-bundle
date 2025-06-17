@@ -20,12 +20,15 @@ jobs:
           cache: "npm"
           cache-dependency-path: ./.github/scripts/example/package-lock.json
 
+      # 依存関係のインストール
       - name: Install dependencies
         run: npm install
 
+      # ビルド -> dist/bundle.js が作成される
       - name: Build script
         run: npm run build
 
+      # bundleされたファイルをロードして実行
       - name: Run bundled TypeScript script
         uses: actions/github-script@v7
         with:
